@@ -263,11 +263,7 @@
             `        // Apply simple animation using the new transformation matrix`,
             `        pos = (uModelRotate * uNodeXform * vec4(aPos, 1.0)).xyz;`,
             `        gl_Position = matP * matMV * uNodeXform * vec4(aPos, 1.0);`,
-            `        if (uPhongEnable > 0.5) {`,
-            `            // Use pre-computed normal matrix for better performance`,
-            `            vNormal = mat3(uNormalMatrixNode) * aNormal;`, // Adjust normal for node transform
-            `            vNormal.x = -vNormal.x;`,
-            `        }`,
+            `        vNormal = mat3(uNormalMatrixNode) * aNormal;`, // Adjust normal for node transform
             `    } else if (uModelRotateEnable > 0.5) {`,
             `        // Apply simple animation using the new transformation matrix`,
             `        highp vec4 rotatedPos = uModelRotate * vec4(aPos, 1.0);`,
@@ -652,7 +648,7 @@
         if (shader) {
           shader.glslWebGL2 = shader.glslWebGL2.replace(
             "in mediump vec2 vTex;",
-            "in highp float vNPW;\nin mediump vec2 vTex;\nin highp vec3 pos;\nin lowp vec4 vColor;\nin highp vec3 vNormal;\nuniform highp float uPhongEnable;\nuniform highp float uEnvMapEnable;\nuniform highp mat4 uEnvCamMat;\nuniform highp float uEnvNormalMap;\nuniform highp float uEnvNormalScale;\nuniform highp vec3 uEmissiveFactor;\nuniform highp vec2 uTexScale;\nuniform highp vec2 uTexOffset;\nuniform highp vec2 uNormalTexScale;\nuniform highp vec2 uNormalTexOffset;\nuniform lowp sampler2D uNormalSampler;\nin highp vec2 vNPTex;\nin highp vec3 vVertexLighting;"
+            "in highp float vNPW;\nin mediump vec2 vTex;\nin highp vec3 pos;\nin lowp vec4 vColor;\nin highp vec3 vNormal;\nuniform highp float uPhongEnable;\nuniform highp float uEnvMapEnable;\nuniform highp mat4 uEnvCamMat;\nuniform highp float uEnvNormalMap;\nuniform highp float uEnvNormalScale;\nuniform highp vec3 uEmissiveFactor;\nuniform lowp sampler2D uMRSampler;\nuniform highp float uHasMRTex;\nuniform lowp sampler2D uSpecularSampler;\nuniform highp float uHasSpecularTex;\nuniform highp vec2 uTexScale;\nuniform highp vec2 uTexOffset;\nuniform highp vec2 uNormalTexScale;\nuniform highp vec2 uNormalTexOffset;\nuniform lowp sampler2D uNormalSampler;\nin highp vec2 vNPTex;\nin highp vec3 vVertexLighting;"
           )
           shader.glslWebGL2 = shader.glslWebGL2.replace("highp vec3 pos = vec3(0.0, 0.0, 0.0);", "")
           shader.glslWebGL2 = shader.glslWebGL2.replace("lowp vec4 vColor = vec4(0.0, 0.0, 0.0, 1.0);", "")
@@ -685,6 +681,10 @@
           shader.glslWebGL2 = shader.glslWebGL2.replace("\tsumColor = max(ambientColorL, sumColor);", "\tsumColor = max(ambientColorL * (1.0 - emissiveStr), sumColor);")
           shader.glslWebGL2 = shader.glslWebGL2.replace("outColor = vec4(sumColor * tex.xyz, tex.a);", "outColor = vec4(mix(sumColor * tex.xyz, tex.xyz * emissiveColor * 2.0, emissiveStr), tex.a);")
           shader.glslWebGL2 = shader.glslWebGL2.replace(/highp float light = dot\(worldSpaceNormal,lightDir\) \* 0\.8 \+ 0\.2;/g, "highp float light = max(dot(worldSpaceNormal,lightDir), 0.0);")
+          shader.glslWebGL2 = shader.glslWebGL2.replace(
+            /[ \t]+sumColor \+= specularColor \* uSpecularColor;/,
+            "    highp vec2 pbUV = (vTex - srcOriginStart) / (srcOriginEnd - srcOriginStart);\n    highp float roughness = uHasMRTex > 0.5 ? texture(uMRSampler, pbUV).g : 0.0;\n    highp vec3 specTex = uHasSpecularTex > 0.5 ? texture(uSpecularSampler, pbUV).rgb : vec3(1.0);\n    sumColor += specularColor * uSpecularColor * specTex * (1.0 - roughness);"
+          )
           shader.glslWebGL2 = shader.glslWebGL2.replace("highp vec3 vVertexLighting = vec3(1.0, 1.0, 1.0);", "")
           
           

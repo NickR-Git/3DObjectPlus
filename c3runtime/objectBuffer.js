@@ -106,6 +106,8 @@ class ObjectBufferTop {
     this._envNormalScale = 1.0;
     this._normalMapGL = null;
     this._lastBoundNormalMap = null;
+    this._mrTexGL = null;
+    this._specularTexGL = null;
   }
 
   _ExecuteBatch(renderer) {
@@ -216,6 +218,10 @@ class ObjectBufferTop {
 
     return vao
   }
+
+  setMRTex(t) { this._mrTexGL = t ? (t._texture||t) : null; }
+
+  setSpecularTex(t) { this._specularTexGL = t ? (t._texture||t) : null; }
 
   createUVXform(rotateMaterial, offsetMaterial) {
     if (!rotateMaterial && !offsetMaterial) {
@@ -378,6 +384,16 @@ class ObjectBufferTop {
       } else if (this.locNormalSampler) {
         gl.uniform1i(this.locNormalSampler, 0);
       }
+      if (this._mrTexGL && this.locMRSampler) {
+        gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, this._mrTexGL); gl.activeTexture(gl.TEXTURE0);
+        gl.uniform1i(this.locMRSampler, 2);
+        if (this.locHasMRTex) gl.uniform1f(this.locHasMRTex, 1.0);
+      } else { if (this.locHasMRTex) gl.uniform1f(this.locHasMRTex, 0.0); }
+      if (this._specularTexGL && this.locSpecularSampler) {
+        gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, this._specularTexGL); gl.activeTexture(gl.TEXTURE0);
+        gl.uniform1i(this.locSpecularSampler, 3);
+        if (this.locHasSpecularTex) gl.uniform1f(this.locHasSpecularTex, 1.0);
+      } else { if (this.locHasSpecularTex) gl.uniform1f(this.locHasSpecularTex, 0.0); }
       if (this._envCamMat) {
         const locCamMat = this.locEnvCamMat;
 if (locCamMat) gl.uniformMatrix4fv(locCamMat, false, this._envCamMat);
@@ -386,7 +402,7 @@ if (locCamMat) gl.uniformMatrix4fv(locCamMat, false, this._envCamMat);
     }
     // --- Draw Call (Common for all paths) ---
     gl.drawElements(gl.TRIANGLES, this.indexDataLength, gl.UNSIGNED_SHORT, 0);
-    { if (this.locEnvEnable) gl.uniform1f(this.locEnvEnable, 0.0); if (this.locEnvNormalMap) gl.uniform1f(this.locEnvNormalMap, 0.0); if (this.locNormalSampler) gl.uniform1i(this.locNormalSampler, 0); gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, null); gl.activeTexture(gl.TEXTURE0); this._lastBoundNormalMap = null; }
+    { if (this.locEnvEnable) gl.uniform1f(this.locEnvEnable, 0.0); if (this.locEnvNormalMap) gl.uniform1f(this.locEnvNormalMap, 0.0); if (this.locNormalSampler) gl.uniform1i(this.locNormalSampler, 0); gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, null); gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, null); gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, null); gl.activeTexture(gl.TEXTURE0); this._lastBoundNormalMap = null; if (this.locHasMRTex) gl.uniform1f(this.locHasMRTex, 0.0); if (this.locHasSpecularTex) gl.uniform1f(this.locHasSpecularTex, 0.0); }
 
     // Unbind VAO once after all drawing paths
     gl.bindVertexArray(null);
