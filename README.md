@@ -6,3 +6,4 @@ Requires Fraglight 8: https://kindeyegames.itch.io/c3-3d-effects
 New features:
 - Per-material environment mapping
 - Per-material emissive surfaces
+- Per-material roughness/specular
