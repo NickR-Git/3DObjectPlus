@@ -498,31 +498,31 @@ Is the named animation playing.
 
 ## Expressions
 
-### animation-names
+### AnimationNames
 Get animation names as JSON string.
 
-### z-elevation-0
+### ZElevation0
 Get Z elevation-0.
 
-### current-animation
+### CurrentAnimation
 Get the current animation name.
 
-### current-animation-time
+### CurrentAnimationTime
 Get current animation time.
 
-### current-animation-frame
+### CurrentAnimationFrame
 Get the current animation frame.
 
-### scale
+### Scale
 Get scale.
 
-### x-scale
+### XScale
 Get X scale.
 
-### y-scale
+### YScale
 Get Y scale.
 
-### z-scale
+### ZScale
 Get Z scale.
 
 ### mesh-names
@@ -531,95 +531,95 @@ Get mesh names.
 ### material-names
 Get material names.
 
-### x-angle
+### XAngle
 Get x angle.
 
-### y-angle
+### YAngle
 Get Y angle.
 
-### z-angle
+### ZAngle
 Get Z angle.
 
-### x-bb-min
+### XBBMin
 Get X bounding box min.
 
-### y-bb-min
+### YBBMin
 Get Y bounding box min.
 
-### z-bb-min
+### ZBBMin
 Get Z bounding box min.
 
-### x-bb-max
+### XBBMax
 Get X bounding box max.
 
-### y-bb-max
+### YBBMax
 Get y bounding box max.
 
-### z-bb-max
+### ZBBMax
 Get z bounding box max.
 
-### x-wireframe-width
+### XWireframeWidth
 X wireframe line width.
 
-### y-wireframe-width
+### YWireframeWidth
 Y wireframe line width.
 
-### z-wireframe-width
+### ZWireframeWidth
 Z wireframe line width.
 
-### u-offset
+### UOffset
 U offset on node.
 
 | Parameter | Description |
 |-----------|-------------|
 | Node name | Node name of offset U. |
 
-### v-offset
+### VOffset
 V offset on node.
 
 | Parameter | Description |
 |-----------|-------------|
 | Node name | Node name of offset V. |
 
-### material-u-offset
+### MaterialUOffset
 U offset on node.
 
 | Parameter | Description |
 |-----------|-------------|
 | Material name | Material name of offset U. |
 
-### material-v-offset
+### MaterialVOffset
 V offset on material.
 
 | Parameter | Description |
 |-----------|-------------|
 | Material name | Material name of offset V. |
 
-### material-rotate-angle
+### MaterialRotateAngle
 Rotation angle of material.
 
 | Parameter | Description |
 |-----------|-------------|
 | Material name | Material name of rotate angle. |
 
-### material-rotate-x
+### MaterialRotateX
 Rotation center X of material.
 
 | Parameter | Description |
 |-----------|-------------|
 | Material name | Material name of rotation center x. |
 
-### material-rotate-y
+### MaterialRotateY
 Rotation center Y of material.
 
 | Parameter | Description |
 |-----------|-------------|
 | Material name | Material name of rotation center Y. |
 
-### materials
+### Materials
 Material list in JSON string format.
 
-### node-point-position
+### NodePointPosition
 Node point position, as JSON string, {x:<number>,y:<number>,z:<number>}.
 
 | Parameter | Description |
@@ -627,41 +627,41 @@ Node point position, as JSON string, {x:<number>,y:<number>,z:<number>}.
 | Node name | Node name. |
 | Point index | Point index. |
 
-### node-vertex-length
+### NodeVertexLength
 Length of the nodes meshs vertex array.
 
 | Parameter | Description |
 |-----------|-------------|
 | Node name | Node name. |
 
-### animation-blend-time
+### AnimationBlendTime
 Animation blend time in seconds.
 
-### light-color
+### LightColor
 Light color value.
 
 | Parameter | Description |
 |-----------|-------------|
 | name | Color name. |
 
-### lights-data
+### LightsData
 Lights data as JSON string.
 
-### animation-speed
+### AnimationSpeed
 Animation speed.
 
-### total-triangles
+### TotalTriangles
 Total triangles to be rendered.
 
-### total-triangles-culled
+### TotalTrianglesCulled
 Total triangles culled.
 
-### node-bounding-box
+### NodeBoundingBox
 Node bounding box.
 
 | Parameter | Description |
 |-----------|-------------|
 | Node name | Node name. |
 
-### gltf-path
+### GltfPath
 Get the current gltf/glb file path.
